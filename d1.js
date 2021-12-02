@@ -21,30 +21,38 @@
 
 
 const fs = require('fs');
-
 const inputFile = 'out.json';
 const fileContent = fs.readFileSync(inputFile);
-
 const data = JSON.parse(fileContent);
 
 const generateDesiredOut = () => { 
 
-  let maxDistance = 0;
+  let maxPings = 1;
+  
   if (data && Array.isArray(data) && data.length > 0) { 
 
     data.forEach((element, index) => {
-      //we need to substract the the second from the first
 
-      if (!data[index - 1] || index < 1) return
-      
-      const difference = parseInt(data[index + 1] - parseInt(element))
-      
-      if(difference > maxDistance) {maxDistance = difference}
+      console.log(index, data[index])
+
+      if (!data[index - 1] || index <= 0) return
+
+      const first = parseInt(data[index])
+      const second = parseInt(data[index+1])
+
+      if (
+        second &&
+        first &&
+        second > first) {
+          maxPings++;
+          
+        console.log('is larger, so increase', second, first, maxPings)
+      }
 
     })
   }
 
-  return maxDistance ?? null; //nu is the largest distance
+  return maxPings ?? null;
 }
 
 
